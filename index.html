@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Gerenciar Lista de Tarefas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+		<div class="col-sm-12 text-center">
+			<h3 class="card-title" title="Gerenciamento de Tarefas">Gerenciamento de Tarefas</h3>
+		</div>
+        <!--<div class="col-sm-6">
+            <div class="dropdown" style="float:right;">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Ajuda?
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <button class="dropdown-item" type="button">Adicionar nova tarefas?</button>
+                <button class="dropdown-item" type="button">Ver todas as tarefas?</button>
+                <button class="dropdown-item" type="button">Ver tarefas anteriores?</button>
+                <button class="dropdown-item" type="button">Ver tarefas para hoje?</button>
+                <button class="dropdown-item" type="button">Ver tarefas posteriores?</button>
+                <button class="dropdown-item" type="button">Ver tarefas concluídas?</button>
+                <button class="dropdown-item" type="button">Ver tarefas atrasadas?</button>
+              </div>
+            </div>
+		</div>-->
+	</div>
+    
+    <!-- Mostra os botões com informações das tarefas existentes-->
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+          	<form class="form-inline my-2 my-lg-0" id="list-tarefas_time" ></form><!-- onMouseMove="loadTasks_time()" -->
+        </nav>
+        <div class="row" id="list-tarefas">
+            <!-- Lista as tarefas aqui-->
+        </div>
+    </div>
+
+    <!-- Modal para inserção -->
+    <div class="modal fade" id="taskModalInsert" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="z-index:1000;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalLabel">Nova Tarefa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"> <span aria-hidden="true">&times;</span> </button>
+                </div>
+                <div class="modal-body">
+                    <form id="task-form">
+                        <div class="form-group">
+                            <label for="title">Título</label>
+                            <input type="text" class="form-control" id="title" maxlength="50" placeholder="Título da tarefa. Máximo 50 carateres" required>
+                        </div>
+                        <div class="form-group">
+                        	<label for="bdaytime">Tarefa Agendada para:</label>
+                        	<input class="form-control" type="datetime-local" id="bdaytime" required>
+                            <label for="description">Descrição</label>
+                            <textarea class="form-control" id="description" placeholder="Descrição da tarefa" required></textarea>
+                        </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Adicionar Tarefa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+    <!-- Modal para edição -->
+    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalLabel">Editar Tarefa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"> <span aria-hidden="true">&times;</span> </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateTaskForm">
+                        <div class="form-group">
+                            <label for="updateTaskTitle">Título</label>
+                            <input type="text" class="form-control" id="updateTaskTitle" maxlength="50" placeholder="Digite o novo título da tarefa" required>
+                        </div>
+                        <div class="form-group">
+							<label for="bdaytime_up">Tarefa Agendada para:</label>
+                        	<input class="form-control" type="datetime-local" id="bdaytime_up" required>
+                            <label for="updateTaskDescription">Descrição</label>
+                            <textarea class="form-control" id="updateTaskDescription" placeholder="Digite a nova descrição da tarefa" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" id="saveChangesBtn">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+         
+	<!-- Modal para mostrar detalhes da tarefa -->
+    <div class="modal fade" id="taskModalDetalhe" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalLabel">Detalhes da Tarefa</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"> <span aria-hidden="true">&times;</span> </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateTaskForm">
+                        <div class="form-group">
+                        	<label for="detalhe_titulo">Título</label>
+							<input type="text" class="form-control" id="detalhe_titulo" maxlength="50" readonly>
+                        </div>
+                        <div class="form-group">
+							<label for="detalhe_data">Tarefa Agendada para:</label>
+                        	<input class="form-control" type="text" id="detalhe_data" readonly>
+							
+                            <label for="detalhe_data_in">Tarefa criada na data:</label>
+                        	<input class="form-control" type="text" id="detalhe_data_in" readonly>
+							
+                            <label for="detalhe_data_up">Tarefa atualizada na data:</label>
+                        	<input class="form-control" type="text" id="detalhe_data_up" readonly>
+                                                                                    
+							<label for="detalhe_descricao">Descrição</label>
+                            <textarea class="form-control" id="detalhe_descricao" readonly></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+    
+	<!-- Modal para conclusão da tarefa -->
+    <div class="modal fade" id="taskModalDataFim" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskModalLabel">Data de conclusão</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"> <span aria-hidden="true">&times;</span> </button>
+                </div>
+                <div class="modal-body">
+                    <form id="updateTaskForm">
+                        <div class="form-group">
+							<label for="bdaytime_up">Agendada para:</label>
+                        	<input class="form-control" type="text" id="bdaytime_ini" readonly>
+                                                    
+							<label for="bdaytime_fim">Tarefa concluída em:</label>
+                        	<input class="form-control" type="datetime-local" id="bdaytime_fim" required>
+                            <p><strong style="color:#F30;">Atenção!</strong><br>A data de conclusão deve ser maior que a de agendamento.<p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary" id="concluir-btn-fim">Concluir</button>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

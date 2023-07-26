@@ -1,0 +1,25 @@
+Dentro do banco agenda criar a tabela com o nome tarefas.
+
+Estrutura da tabela:
+
+CREATE TABLE tarefas (
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(50) NOT NULL,
+  description TEXT,
+  date_time DATETIME,
+  date_end DATETIME,
+  sts VARCHAR(1) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+Descrição dos campos:
+
+id 		= Chave primária
+title 		= Título da tarefa
+description 	= Descrição da tarefa
+date_time 	= Data prevista para a realização da tarefa
+date_end 	= Data de conclusão da tarefa
+sts		= a (ativa) c (concluída)
+created_at	= Data em que a tarefa foi criada
+updated_at	= Data em que a tarefa foi atualizada
