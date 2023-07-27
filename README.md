@@ -1,4 +1,4 @@
-# tarefas
+# Tarefas
 Sistema CRUD para gerenciamento básico de dados e envolve operações fundamentals de criação (Create), leitura (Read), atualização (Update) e exclusão (Delete) de informações em um banco de dados.
 
 Utilizado: HTML, CSS, JavaScript, Jquery, Ajax, PHP e MYSQL.
