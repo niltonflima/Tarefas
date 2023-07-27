@@ -1,5 +1,6 @@
 # tarefas
 Sistema CRUD para gerenciamento básico de dados e envolve operações fundamentals de criação (Create), leitura (Read), atualização (Update) e exclusão (Delete) de informações em um banco de dados.
+Utilizad: HTML, CSS, JavaScript, Jquery, Ajax, PHP e MYSQL.
 
 Instruções para a instalação do sistema:
 1. Crie um banco de dados no MySql com o nome "agenda".
